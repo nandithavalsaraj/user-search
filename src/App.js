@@ -4,6 +4,7 @@ import './App.css'
 class App extends React.Component {
     constructor(props) {
         super(props)
+        this.textInput = React.createRef()
         this.state = {
             data: [],
         }
@@ -20,7 +21,7 @@ class App extends React.Component {
     }
 
     handleSubmit = () => {
-        this.getUser('nahzor')
+        this.getUser(this.textInput.value)
     }
 
     render() {
@@ -32,6 +33,7 @@ class App extends React.Component {
                 <div className="Search-bar-container">
                     <input
                         className="Search-bar"
+                        ref={(textValue) => (this.textInput = textValue)}
                         placeholder="Enter user information"
                         width="300px"
                     ></input>
