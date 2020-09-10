@@ -15,48 +15,46 @@ function App() {
                 ></input>
             </div>
             <div className="Search-result-container">
-                <div className="cards">
-                    <div className="display-card">
-                        <div className="card-title">global-nuclear-console</div>
-                        <div className="card-description">
+                <div className="Cards">
+                    <div className="Display-card">
+                        <h1 className="Card-title">global-nuclear-console</h1>
+                        <p className="Card-description">
                             global nuclear console for the destruction of world
                             using python
-                        </div>
-                        <div className="card-update-date">
+                        </p>
+                        <div className="Card-update-date">
                             Last update on date1
                         </div>
                     </div>
-                    <div className="display-card">
-                        <div className="card-title">
+                    <div className="Display-card">
+                        <h1 className="Card-title">
                             spontaneous-spider-analysis
-                        </div>
-                        <div className="card-description">
+                        </h1>
+                        <p className="Card-description">
                             spontaneous analysis of spider venom using machine
                             learning
-                        </div>
-                        <div className="card-update-date">
+                        </p>
+                        <div className="Card-update-date">
                             Last update on date2
                         </div>
                     </div>
-                    <div className="display-card">
-                        <div className="card-title">
-                            newbie-paintball-master
-                        </div>
-                        <div className="card-description">
+                    <div className="Display-card">
+                        <h1 className="Card-title">newbie-paintball-master</h1>
+                        <p className="Card-description">
                             npm is a package manager
-                        </div>
-                        <div className="card-update-date">
+                        </p>
+                        <div className="Card-update-date">
                             Last update on date3
                         </div>
                     </div>
-                    <div className="display-card">
-                        <div className="card-title">
+                    <div className="Display-card">
+                        <h1 className="Card-title">
                             nonviolent-pirate-monster
-                        </div>
-                        <div className="card-description">
+                        </h1>
+                        <p className="Card-description">
                             npm is a package manager
-                        </div>
-                        <div className="card-update-date">
+                        </p>
+                        <div className="Card-update-date">
                             Last update on date4
                         </div>
                     </div>
