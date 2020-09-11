@@ -78,7 +78,7 @@ class App extends React.Component {
                         })}
 
                         {this.state.start === true &&
-                            this.state.username === true && (
+                            this.state.usernameValid === true && (
                                 <p>
                                     No public Repos found under{' '}
                                     {this.textInput.value} profile !
