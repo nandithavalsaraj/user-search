@@ -89,7 +89,7 @@ class App extends React.Component {
                         width="300px"
                         onChange={this.handleChange}
                     ></input>
-                    {/*Validation error */}
+
                     {this.state.validationError && (
                         <p className="Validation-error">
                             {this.state.validationError}
@@ -108,15 +108,6 @@ class App extends React.Component {
                         {this.state.apiResponse.data.map((content, index) => {
                             return <DisplayCard content={content} key={index} />
                         })}
-
-                        {/* {!this.state.pristine &&
-                            this.state.apiResponse.data.length === 0 &&
-                            this.state.apiResponse.usernameValid === true && (
-                                <p>
-                                    No public repositories found under{' '}
-                                    {this.textInput.value} profile !
-                                </p>
-                            )} */}
 
                         {!this.state.pristine &&
                             this.state.apiResponse.data.length === 0 &&
