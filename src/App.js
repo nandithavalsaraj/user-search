@@ -1,5 +1,6 @@
 import React from 'react'
 import './App.css'
+import DisplayCard from './DisplayCard'
 
 class App extends React.Component {
     constructor(props) {
@@ -9,8 +10,9 @@ class App extends React.Component {
             data: [],
             error: '',
             start: false,
-            reposCount: -1,
+            usernameValid: false,
         }
+        this.defaultState = this.state
     }
 
     getUser(username) {
@@ -18,25 +20,26 @@ class App extends React.Component {
             .then((response) => {
                 if (response.ok) {
                     response.json().then((json) => {
-                        console.log(json)
                         this.setState({ data: json })
-                        this.setState({ reposCount: json.length })
+                        this.setState({ usernameValid: true })
                     })
                 } else if (response.status === 404) {
                     this.setState({ error: "Username doesn't exist" })
+                    this.setState({ usernameValid: false })
                 } else {
                     this.setState({ error: response.statusText })
                 }
             })
             .catch((err) => {
                 this.setState({
-                    error: 'Trouble fetching data from github. ' + err,
+                    error: 'Error fetching data from github. ' + err,
                 })
             })
     }
 
     handleSubmit = (event) => {
         event.preventDefault()
+        this.setState(this.defaultState) // reset form fields
         this.setState({ start: true })
         if (
             this.textInput.value.length === 0 ||
@@ -47,8 +50,6 @@ class App extends React.Component {
             this.getUser(this.textInput.value)
         }
     }
-
-    handleError = (error) => {}
 
     render() {
         return (
@@ -73,23 +74,11 @@ class App extends React.Component {
                 <div className="Search-result-container">
                     <div className="Cards">
                         {this.state.data.map((content, index) => {
-                            return (
-                                <div className="Display-card" key={index}>
-                                    <h1 className="Card-title">
-                                        {content.name}
-                                    </h1>
-                                    <p className="Card-description">
-                                        {content.description}
-                                    </p>
-                                    <div className="Card-update-date">
-                                        {content.updated_at}
-                                    </div>
-                                </div>
-                            )
+                            return <DisplayCard content={content} key={index} />
                         })}
 
                         {this.state.start === true &&
-                            this.state.reposCount === 0 && (
+                            this.state.username === true && (
                                 <p>
                                     No public Repos found under{' '}
                                     {this.textInput.value} profile !
@@ -98,9 +87,9 @@ class App extends React.Component {
 
                         {this.state.start === true &&
                             (!this.state.data ||
-                                this.state.reposCount === -1) && (
+                                this.state.usernameValid === false) && (
                                 <p className="Invalid-output">
-                                    {this.state.error}!!
+                                    {this.state.error}
                                 </p>
                             )}
                     </div>
