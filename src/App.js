@@ -64,7 +64,7 @@ class App extends React.Component {
                     <input
                         className="Search-bar"
                         ref={(textValue) => (this.textInput = textValue)}
-                        placeholder="Enter user information"
+                        placeholder="Enter GitHub username"
                         width="300px"
                     ></input>
                     <button type="submit" className="Submit">
