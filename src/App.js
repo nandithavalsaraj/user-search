@@ -7,22 +7,48 @@ class App extends React.Component {
         this.textInput = React.createRef()
         this.state = {
             data: [],
+            error: '',
+            start: false,
+            reposCount: -1,
         }
     }
 
     getUser(username) {
         return fetch(`https://api.github.com/users/${username}/repos`)
             .then((response) => {
-                response.json().then((json) => {
-                    this.setState({ data: json })
+                if (response.ok) {
+                    response.json().then((json) => {
+                        console.log(json)
+                        this.setState({ data: json })
+                        this.setState({ reposCount: json.length })
+                    })
+                } else if (response.status === 404) {
+                    this.setState({ error: "Username doesn't exist" })
+                } else {
+                    this.setState({ error: response.statusText })
+                }
+            })
+            .catch((err) => {
+                this.setState({
+                    error: 'Trouble fetching data from github. ' + err,
                 })
             })
-            .catch((err) => console.error(err))
     }
 
-    handleSubmit = () => {
-        this.getUser(this.textInput.value)
+    handleSubmit = (event) => {
+        event.preventDefault()
+        this.setState({ start: true })
+        if (
+            this.textInput.value.length === 0 ||
+            this.textInput.value.indexOf(',') > -1
+        ) {
+            this.setState({ error: 'Invalid input' })
+        } else {
+            this.getUser(this.textInput.value)
+        }
     }
+
+    handleError = (error) => {}
 
     render() {
         return (
@@ -30,22 +56,20 @@ class App extends React.Component {
                 <header className="App-header">
                     <h1>Search the Repo!</h1>
                 </header>
-                <div className="Search-bar-container">
+                <form
+                    className="Search-bar-container"
+                    onSubmit={this.handleSubmit}
+                >
                     <input
                         className="Search-bar"
                         ref={(textValue) => (this.textInput = textValue)}
                         placeholder="Enter user information"
                         width="300px"
                     ></input>
-                    <button
-                        className="Submit"
-                        onClick={() => {
-                            this.handleSubmit()
-                        }}
-                    >
+                    <button type="submit" className="Submit">
                         Submit
                     </button>
-                </div>
+                </form>
                 <div className="Search-result-container">
                     <div className="Cards">
                         {this.state.data.map((content, index) => {
@@ -63,6 +87,22 @@ class App extends React.Component {
                                 </div>
                             )
                         })}
+
+                        {this.state.start === true &&
+                            this.state.reposCount === 0 && (
+                                <p>
+                                    No public Repos found under{' '}
+                                    {this.textInput.value} profile !
+                                </p>
+                            )}
+
+                        {this.state.start === true &&
+                            (!this.state.data ||
+                                this.state.reposCount === -1) && (
+                                <p className="Invalid-output">
+                                    {this.state.error}!!
+                                </p>
+                            )}
                     </div>
                 </div>
             </div>
