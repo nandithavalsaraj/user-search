@@ -7,10 +7,13 @@ class App extends React.Component {
         super(props)
         this.textInput = React.createRef()
         this.state = {
-            data: [],
-            error: '',
-            start: false,
-            usernameValid: false,
+            apiResponse: {
+                data: [],
+                apiError: '',
+                usernameValid: false,
+            },
+            validationError: '',
+            pristine: true,
         }
         this.defaultState = this.state
     }
@@ -20,34 +23,51 @@ class App extends React.Component {
             .then((response) => {
                 if (response.ok) {
                     response.json().then((json) => {
-                        this.setState({ data: json })
-                        this.setState({ usernameValid: true })
+                        this.setState({
+                            apiResponse: {
+                                ...this.defaultState.apiResponse,
+                                data: json,
+                                usernameValid: true,
+                            },
+                        })
                     })
                 } else if (response.status === 404) {
-                    this.setState({ error: "Username doesn't exist" })
-                    this.setState({ usernameValid: false })
+                    this.setState({
+                        apiResponse: {
+                            ...this.defaultState.apiResponse,
+                            apiError: "Username doesn't exist",
+                            usernameValid: false,
+                        },
+                    })
                 } else {
-                    this.setState({ error: response.statusText })
+                    throw response.statusText
                 }
             })
             .catch((err) => {
                 this.setState({
-                    error: 'Error fetching data from github. ' + err,
+                    apiResponse: {
+                        ...this.defaultState.apiResponse,
+                        apiError: 'Error fetching data from github. ' + err,
+                    },
                 })
             })
     }
 
     handleSubmit = (event) => {
+        this.setState({ pristine: false })
         event.preventDefault()
-        this.setState(this.defaultState) // reset form fields
-        this.setState({ start: true })
-        if (
-            this.textInput.value.length === 0 ||
-            this.textInput.value.indexOf(',') > -1
-        ) {
-            this.setState({ error: 'Invalid input' })
-        } else {
+        this.setState({ apiResponse: this.defaultState.apiResponse }) // reset state
+        if (!this.state.validationError) {
             this.getUser(this.textInput.value)
+        }
+    }
+
+    handleChange = (event) => {
+        var myRegEx = /[^a-z\d]/i
+        if (!myRegEx.test(this.textInput.value)) {
+            this.setState({ validationError: '' })
+        } else {
+            this.setState({ validationError: 'Invalid input' })
         }
     }
 
@@ -60,38 +80,51 @@ class App extends React.Component {
                 <form
                     className="Search-bar-container"
                     onSubmit={this.handleSubmit}
+                    data-testid="Search-bar-test"
                 >
                     <input
                         className="Search-bar"
                         ref={(textValue) => (this.textInput = textValue)}
                         placeholder="Enter GitHub username"
                         width="300px"
+                        onChange={this.handleChange}
                     ></input>
-                    <button type="submit" className="Submit">
+                    {/*Validation error */}
+                    {this.state.validationError && (
+                        <p className="Validation-error">
+                            {this.state.validationError}
+                        </p>
+                    )}
+                    <button
+                        type="submit"
+                        className="Submit"
+                        disabled={this.state.validationError}
+                    >
                         Submit
                     </button>
                 </form>
                 <div className="Search-result-container">
                     <div className="Cards">
-                        {this.state.data.map((content, index) => {
+                        {this.state.apiResponse.data.map((content, index) => {
                             return <DisplayCard content={content} key={index} />
                         })}
 
-                        {this.state.start === true &&
-                            this.state.usernameValid === true && (
+                        {/* {!this.state.pristine &&
+                            this.state.apiResponse.data.length === 0 &&
+                            this.state.apiResponse.usernameValid === true && (
                                 <p>
-                                    No public Repos found under{' '}
+                                    No public repositories found under{' '}
                                     {this.textInput.value} profile !
                                 </p>
-                            )}
+                            )} */}
 
-                        {this.state.start === true &&
-                            (!this.state.data ||
-                                this.state.usernameValid === false) && (
-                                <p className="Invalid-output">
-                                    {this.state.error}
-                                </p>
-                            )}
+                        {!this.state.pristine &&
+                            this.state.apiResponse.data.length === 0 &&
+                            (this.state.apiResponse.apiError.length !== 0 ? (
+                                <p>{this.state.apiResponse.apiError}</p>
+                            ) : (
+                                <p>No public repositories found!</p>
+                            ))}
                     </div>
                 </div>
             </div>
