@@ -43,7 +43,7 @@ p {
     min-height: 50px;
     border: none;
     margin: none;
-    padding: 2%;
+    padding: none;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -88,13 +88,14 @@ p {
     flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: flex-start;
+    text-align: center;
 }
 
 .Display-card {
     min-width: 150px;
     width: 40%;
     min-height: 200px;
-    border-radius: 3%;
+    border-radius: 5px;
     padding: 1%;
     margin: 1%;
     display: flex;
