@@ -1,4 +1,6 @@
 import React from 'react'
+import './App.css'
+import Displaydate from './Displaydate'
 
 class DisplayCard extends React.Component {
     constructor(props) {
@@ -15,7 +17,8 @@ class DisplayCard extends React.Component {
                     {this.state.content.description}
                 </p>
                 <div className="Card-update-date">
-                    {this.state.content.updated_at}
+                    {/* {this.state.content.updated_at} */}
+                    <Displaydate date={this.state.content.updated_at} />
                 </div>
             </div>
         )
