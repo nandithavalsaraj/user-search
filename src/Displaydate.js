@@ -11,7 +11,7 @@ class Displaydate extends React.Component {
         var date = new Date(this.state.dateISOFormat)
         return (
             <div>
-                Last Update on
+                Last Updated on
                 {' ' +
                     date.getDay() +
                     '/' +
