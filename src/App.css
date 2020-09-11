@@ -42,10 +42,10 @@ p {
     min-height: 50px;
     border: none;
     margin: none;
-    padding: none;
+    padding: 2%;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-evenly;
     align-items: center;
 }
 
@@ -56,6 +56,19 @@ p {
 
     font-size: 20px;
     text-align: center;
+}
+
+.Submit {
+    height: 30%;
+    width: 20%;
+    border-radius: 3%;
+
+    background-color: white;
+    color: grey;
+}
+
+.Submit:focus {
+    outline-width: 0;
 }
 
 .Search-result-container {
