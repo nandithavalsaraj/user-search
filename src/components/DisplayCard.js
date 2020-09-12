@@ -1,6 +1,5 @@
 import React from 'react'
-import './App.css'
-import Displaydate from './Displaydate'
+import '../styles/DisplayCard.css'
 
 class DisplayCard extends React.Component {
     constructor(props) {

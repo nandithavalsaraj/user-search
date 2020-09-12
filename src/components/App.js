@@ -1,5 +1,5 @@
 import React from 'react'
-import './App.css'
+import '../styles/App.css'
 import DisplayCard from './DisplayCard'
 
 class App extends React.Component {
@@ -7,10 +7,13 @@ class App extends React.Component {
         super(props)
         this.textInput = React.createRef()
         this.state = {
-            data: [],
-            error: '',
-            start: false,
-            usernameValid: false,
+            apiResponse: {
+                data: [],
+                apiError: '',
+                usernameValid: false,
+            },
+            validationError: '',
+            showResults: false,
         }
         this.defaultState = this.state
     }
@@ -38,14 +41,23 @@ class App extends React.Component {
     }
 
     handleSubmit = (event) => {
+        this.setState({ showResults: true })
         event.preventDefault()
-        this.setState(this.defaultState) // reset form fields
-        this.setState({ start: true })
-        if (
-            this.textInput.value.length === 0 ||
-            this.textInput.value.indexOf(',') > -1
-        ) {
-            this.setState({ error: 'Invalid input' })
+        this.setState({ apiResponse: this.defaultState.apiResponse }) // reset state
+        if (!this.state.validationError) {
+            if (this.textInput.value === '') {
+                this.setState({ validationError: 'Invalid input' })
+                this.setState({ showResults: false })
+            } else {
+                this.getUser(this.textInput.value)
+            }
+        }
+    }
+
+    handleChange = (event) => {
+        var myRegEx = /[^a-z\d]/i
+        if (!myRegEx.test(this.textInput.value)) {
+            this.setState({ validationError: '' })
         } else {
             this.getUser(this.textInput.value)
         }
@@ -77,21 +89,13 @@ class App extends React.Component {
                             return <DisplayCard content={content} key={index} />
                         })}
 
-                        {this.state.start === true &&
-                            this.state.usernameValid === true && (
-                                <p>
-                                    No public Repos found under{' '}
-                                    {this.textInput.value} profile !
-                                </p>
-                            )}
-
-                        {this.state.start === true &&
-                            (!this.state.data ||
-                                this.state.usernameValid === false) && (
-                                <p className="Invalid-output">
-                                    {this.state.error}
-                                </p>
-                            )}
+                        {this.state.showResults &&
+                            this.state.apiResponse.data.length === 0 &&
+                            (this.state.apiResponse.apiError.length !== 0 ? (
+                                <p>{this.state.apiResponse.apiError}</p>
+                            ) : (
+                                <p>No public repositories found!</p>
+                            ))}
                     </div>
                 </div>
             </div>
