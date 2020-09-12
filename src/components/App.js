@@ -1,5 +1,5 @@
 import React from 'react'
-import './App.css'
+import '../styles/App.css'
 import DisplayCard from './DisplayCard'
 
 class App extends React.Component {
@@ -13,7 +13,7 @@ class App extends React.Component {
                 usernameValid: false,
             },
             validationError: '',
-            pristine: true,
+            showResults: false,
         }
         this.defaultState = this.state
     }
@@ -54,11 +54,17 @@ class App extends React.Component {
     }
 
     handleSubmit = (event) => {
-        this.setState({ pristine: false })
+        this.setState({ showResults: true })
         event.preventDefault()
         this.setState({ apiResponse: this.defaultState.apiResponse }) // reset state
         if (!this.state.validationError) {
-            this.getUser(this.textInput.value)
+            if (this.textInput.value === '') {
+                console.log('invalid')
+                this.setState({ validationError: 'Invalid input' })
+                this.setState({ showResults: false })
+            } else {
+                this.getUser(this.textInput.value)
+            }
         }
     }
 
@@ -68,6 +74,8 @@ class App extends React.Component {
             this.setState({ validationError: '' })
         } else {
             this.setState({ validationError: 'Invalid input' })
+            this.setState({ showResults: false })
+            // this.getUser(this.textInput.value)
         }
     }
 
@@ -80,7 +88,6 @@ class App extends React.Component {
                 <form
                     className="Search-bar-container"
                     onSubmit={this.handleSubmit}
-                    data-testid="Search-bar-test"
                 >
                     <input
                         className="Search-bar"
@@ -89,7 +96,7 @@ class App extends React.Component {
                         width="300px"
                         onChange={this.handleChange}
                     ></input>
-
+                    {/*Validation error */}
                     {this.state.validationError && (
                         <p className="Validation-error">
                             {this.state.validationError}
@@ -105,16 +112,29 @@ class App extends React.Component {
                 </form>
                 <div className="Search-result-container">
                     <div className="Cards">
-                        {this.state.apiResponse.data.map((content, index) => {
-                            return <DisplayCard content={content} key={index} />
-                        })}
+                        {this.state.showResults === true &&
+                            this.state.apiResponse.data.map(
+                                (content, index) => {
+                                    return (
+                                        <DisplayCard
+                                            content={content}
+                                            key={index}
+                                        />
+                                    )
+                                }
+                            )}
 
-                        {!this.state.pristine &&
+                        {this.state.showResults &&
                             this.state.apiResponse.data.length === 0 &&
                             (this.state.apiResponse.apiError.length !== 0 ? (
                                 <p>{this.state.apiResponse.apiError}</p>
                             ) : (
-                                <p>No public repositories found!</p>
+                                this.state.validationError === '' && (
+                                    <p>
+                                        No public repositories found for the
+                                        user!
+                                    </p>
+                                )
                             ))}
                     </div>
                 </div>

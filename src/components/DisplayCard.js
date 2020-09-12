@@ -1,5 +1,5 @@
 import React from 'react'
-import './App.css'
+import '../styles/DisplayCard.css'
 
 class DisplayCard extends React.Component {
     constructor(props) {
@@ -18,9 +18,8 @@ class DisplayCard extends React.Component {
                 </p>
                 <div className="Card-update-date">
                     {/* {this.state.content.updated_at} */}
-                    {/* <Displaydate date={this.state.content.updated_at} /> */}
                     <div>
-                        Last Update on
+                        Last Updated on
                         {' ' +
                             date.getDay() +
                             '/' +
