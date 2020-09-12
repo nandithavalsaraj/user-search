@@ -112,7 +112,7 @@ class App extends React.Component {
                 </form>
                 <div className="Search-result-container">
                     <div className="Cards">
-                        {this.state.showResults == true &&
+                        {this.state.showResults === true &&
                             this.state.apiResponse.data.map(
                                 (content, index) => {
                                     return (
@@ -130,7 +130,10 @@ class App extends React.Component {
                                 <p>{this.state.apiResponse.apiError}</p>
                             ) : (
                                 this.state.validationError === '' && (
-                                    <p>No public repositories found!</p>
+                                    <p>
+                                        No public repositories found for the
+                                        user!
+                                    </p>
                                 )
                             ))}
                     </div>
