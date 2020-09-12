@@ -9,6 +9,7 @@ class DisplayCard extends React.Component {
         }
     }
     render() {
+        var date = new Date(this.state.content.updated_at)
         return (
             <div className="Display-card">
                 <h1 className="Card-title">{this.state.content.name}</h1>
@@ -17,7 +18,15 @@ class DisplayCard extends React.Component {
                 </p>
                 <div className="Card-update-date">
                     {/* {this.state.content.updated_at} */}
-                    <Displaydate date={this.state.content.updated_at} />
+                    <div>
+                        Last Updated on
+                        {' ' +
+                            date.getDay() +
+                            '/' +
+                            date.getMonth() +
+                            '/' +
+                            date.getFullYear()}
+                    </div>
                 </div>
             </div>
         )

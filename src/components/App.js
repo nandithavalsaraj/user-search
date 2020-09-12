@@ -23,19 +23,32 @@ class App extends React.Component {
             .then((response) => {
                 if (response.ok) {
                     response.json().then((json) => {
-                        this.setState({ data: json })
-                        this.setState({ usernameValid: true })
+                        this.setState({
+                            apiResponse: {
+                                ...this.defaultState.apiResponse,
+                                data: json,
+                                usernameValid: true,
+                            },
+                        })
                     })
                 } else if (response.status === 404) {
-                    this.setState({ error: "Username doesn't exist" })
-                    this.setState({ usernameValid: false })
+                    this.setState({
+                        apiResponse: {
+                            ...this.defaultState.apiResponse,
+                            apiError: "Username doesn't exist",
+                            usernameValid: false,
+                        },
+                    })
                 } else {
-                    this.setState({ error: response.statusText })
+                    throw response.statusText
                 }
             })
             .catch((err) => {
                 this.setState({
-                    error: 'Error fetching data from github. ' + err,
+                    apiResponse: {
+                        ...this.defaultState.apiResponse,
+                        apiError: 'Error fetching data from github. ' + err,
+                    },
                 })
             })
     }
@@ -46,6 +59,7 @@ class App extends React.Component {
         this.setState({ apiResponse: this.defaultState.apiResponse }) // reset state
         if (!this.state.validationError) {
             if (this.textInput.value === '') {
+                console.log('invalid')
                 this.setState({ validationError: 'Invalid input' })
                 this.setState({ showResults: false })
             } else {
@@ -59,7 +73,9 @@ class App extends React.Component {
         if (!myRegEx.test(this.textInput.value)) {
             this.setState({ validationError: '' })
         } else {
-            this.getUser(this.textInput.value)
+            this.setState({ validationError: 'Invalid input' })
+            this.setState({ showResults: false })
+            // this.getUser(this.textInput.value)
         }
     }
 
@@ -78,23 +94,44 @@ class App extends React.Component {
                         ref={(textValue) => (this.textInput = textValue)}
                         placeholder="Enter GitHub username"
                         width="300px"
+                        onChange={this.handleChange}
                     ></input>
-                    <button type="submit" className="Submit">
+                    {/*Validation error */}
+                    {this.state.validationError && (
+                        <p className="Validation-error">
+                            {this.state.validationError}
+                        </p>
+                    )}
+                    <button
+                        type="submit"
+                        className="Submit"
+                        disabled={this.state.validationError}
+                    >
                         Submit
                     </button>
                 </form>
                 <div className="Search-result-container">
                     <div className="Cards">
-                        {this.state.data.map((content, index) => {
-                            return <DisplayCard content={content} key={index} />
-                        })}
+                        {this.state.showResults == true &&
+                            this.state.apiResponse.data.map(
+                                (content, index) => {
+                                    return (
+                                        <DisplayCard
+                                            content={content}
+                                            key={index}
+                                        />
+                                    )
+                                }
+                            )}
 
                         {this.state.showResults &&
                             this.state.apiResponse.data.length === 0 &&
                             (this.state.apiResponse.apiError.length !== 0 ? (
                                 <p>{this.state.apiResponse.apiError}</p>
                             ) : (
-                                <p>No public repositories found!</p>
+                                this.state.validationError === '' && (
+                                    <p>No public repositories found!</p>
+                                )
                             ))}
                     </div>
                 </div>
