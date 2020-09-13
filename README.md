@@ -1,4 +1,4 @@
-Retrieve Public Repo of the GitHub User
+# Retrieve Public Repo of the GitHub User
 
 This project is a Single Page Application using React which help retrieve public repo of a user given their GithHub username. If we enter a valid Github user ID, it should fetch all the public repositories of that user and list them down as display cards which contain certain details of the repo(i.e. repository name, description and the last updated date).
 
