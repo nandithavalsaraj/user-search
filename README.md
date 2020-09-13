@@ -1,8 +1,8 @@
-# Retrieve Public Repo of the GitHub User
+# Fetch public GitHub repositories for a given user
 
-This project is a Single Page Application using React which help retrieve public repo of a user given their GithHub username. If we enter a valid Github user ID, it should fetch all the public repositories of that user and list them down as display cards which contain certain details of the repo(i.e. repository name, description and the last updated date).
+This project is a Single Page Application built using ReactJS which help fetches public repositories of a user given their GithHub username. Given a valid Github username, the public repositories of that user(if exists) are listed in a card layout with details of the repository (i.e. repository name, description and the last updated date).
 
-To run the application go inside the project directory, you can run:
+To run the application go inside the project directory, run:
 
 ### `npm start`
 
@@ -22,5 +22,8 @@ Launches the test runner in the interactive watch mode.<br />
 Builds the app for production to the `build` folder.<br />
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+The build is minified and ready to be deployed.<br />
+
+### `serve -s build`
+
+Once app is built in production mode, this command serves the production build using a static server.
