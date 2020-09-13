@@ -13,7 +13,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
-    //cleanu on exit
+    //clean on exit
     unmountComponentAtNode(container2)
     container2.remove()
 })
@@ -32,13 +32,15 @@ test('DisplayCard renders without crashing', () => {
         )
     })
     expect(document.querySelector('h1').textContent).toBe('test1')
-    expect(document.querySelector('p').textContent).toBe('test description')
-    expect(document.querySelector('div.Card-update-date').textContent).toBe(
+    expect(document.querySelector('p.Card-description').textContent).toBe(
+        'test description'
+    )
+    expect(document.querySelector('p.Card-update-date').textContent).toBe(
         'Last Updated on 9/4/2020'
     )
 })
 
-test('should take a snapshot', () => {
+test('Taking a snapshot', () => {
     const { asFragment } = render(
         <DisplayCard
             content={[

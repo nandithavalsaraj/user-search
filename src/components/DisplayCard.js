@@ -17,10 +17,10 @@ class DisplayCard extends React.Component {
                 <p className="Card-description">
                     {this.state.content.description}
                 </p>
-                <div className="Card-update-date">
+                <p className="Card-update-date">
                     {/* {this.state.content.updated_at} */}
                     Last Updated on {date}
-                </div>
+                </p>
             </div>
         )
     }
