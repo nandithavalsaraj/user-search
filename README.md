@@ -2,7 +2,20 @@
 
 This project is a Single Page Application built using ReactJS which help fetches public repositories of a user given their GithHub username. Given a valid Github username, the public repositories of that user(if exists) are listed in a card layout with details of the repository (i.e. repository name, description and the last updated date).
 
-To run the application go inside the project directory, run:
+## Running the App
+- Clone the repository
+- Navigate into the folder and run `npm install` to download dependencies.
+- To launch application:
+  - Development mode:
+    - Run `npm run start` to serve the webapp in development mode.
+    - Open [https://localhost:3000] in browser.
+  - Production mode:
+    - Run `npm run build` to generate production build into `build/` folder.
+    - Run `serve -s build` to serve the production build using static server.
+    - Open [https://localhost:5000] in browser.
+
+
+## Available scripts 
 
 ### `npm start`
 
@@ -27,3 +40,5 @@ The build is minified and ready to be deployed.<br />
 ### `serve -s build`
 
 Once app is built in production mode, this command serves the production build using a static server.
+
+Built using [Create-React-App](https://github.com/facebook/create-react-app)
