@@ -6,14 +6,28 @@ class DisplayCard extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            username: this.props.input,
             content: this.props.content,
         }
     }
+
     render() {
         var date = new Date(this.state.content.updated_at).toLocaleDateString()
+        var url =
+            'https://github.com/' +
+            this.state.username +
+            '/' +
+            this.state.content.name
         return (
             <div className="Display-card">
-                <h1 className="Card-title">{this.state.content.name}</h1>
+                <a
+                    className="Card-title"
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    {this.state.content.name}
+                </a>
                 <p className="Card-description">
                     {this.state.content.description}
                 </p>

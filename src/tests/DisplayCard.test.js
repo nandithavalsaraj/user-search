@@ -31,7 +31,7 @@ test('DisplayCard renders without crashing', () => {
             container2
         )
     })
-    expect(document.querySelector('h1').textContent).toBe('test1')
+    expect(document.querySelector('a.Card-title').textContent).toBe('test1')
     expect(document.querySelector('p.Card-description').textContent).toBe(
         'test description'
     )

@@ -51,7 +51,7 @@ test('Render user repo list', async () => {
         fireEvent.click(document.querySelector('button.Submit'))
     })
     expect(document.querySelector('div.Display-card')).not.toBeNull()
-    expect(document.querySelector('h1.Card-title').textContent).toBe(
+    expect(document.querySelector('a.Card-title').textContent).toBe(
         'arduino-snippets'
     )
     expect(document.querySelector('p.Card-description').textContent).toBe(

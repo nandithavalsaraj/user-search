@@ -55,7 +55,7 @@ class App extends React.Component {
             })
     }
 
-    /*Function called on form submit. 
+    /*Function calls on form submit. 
     The getUser() function is called if the search input is valid else sets validation error.*/
     handleSubmit = (event) => {
         this.setState({ showResults: true })
@@ -124,6 +124,7 @@ class App extends React.Component {
                                 (content, index) => {
                                     return (
                                         <DisplayCard
+                                            input={this.textInput.value}
                                             content={content}
                                             key={index}
                                         />
@@ -145,7 +146,9 @@ class App extends React.Component {
                             ))}
                     </div>
                 </div>
-                <footer className="App-footer"></footer>
+                <footer className="App-footer">
+                    <p>Created using ReactJS</p>
+                </footer>
             </div>
         )
     }
