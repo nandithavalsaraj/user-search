@@ -2,6 +2,7 @@ import React from 'react'
 import '../styles/App.css'
 import DisplayCard from './DisplayCard'
 
+/*Main Component for the Project*/
 class App extends React.Component {
     constructor(props) {
         super(props)
@@ -18,6 +19,7 @@ class App extends React.Component {
         this.defaultState = this.state
     }
 
+    /*function to make fetch api calls and handles api errors*/
     getUser(username) {
         return fetch(`https://api.github.com/users/${username}/repos`)
             .then((response) => {
@@ -53,6 +55,8 @@ class App extends React.Component {
             })
     }
 
+    /*Function called on form submit. 
+    The getUser() function is called if the search input is valid else sets validation error.*/
     handleSubmit = (event) => {
         this.setState({ showResults: true })
         event.preventDefault()
@@ -67,7 +71,8 @@ class App extends React.Component {
             }
         }
     }
-
+    /*Function called on input text box data change.
+    Handles validation errors during typing*/
     handleChange = (event) => {
         var myRegEx = /[^a-z\d]/i
         if (!myRegEx.test(this.textInput.value)) {
@@ -88,6 +93,7 @@ class App extends React.Component {
                 <form
                     className="Search-bar-container"
                     onSubmit={this.handleSubmit}
+                    data-testid="form-testid"
                 >
                     <input
                         className="Search-bar"
@@ -95,8 +101,8 @@ class App extends React.Component {
                         placeholder="Enter GitHub username"
                         width="300px"
                         onChange={this.handleChange}
+                        data-testid="input-testid"
                     ></input>
-                    {/*Validation error */}
                     {this.state.validationError && (
                         <p className="Validation-error">
                             {this.state.validationError}
@@ -106,6 +112,7 @@ class App extends React.Component {
                         type="submit"
                         className="Submit"
                         disabled={this.state.validationError}
+                        data-testid="button-testid"
                     >
                         Submit
                     </button>
@@ -138,6 +145,7 @@ class App extends React.Component {
                             ))}
                     </div>
                 </div>
+                <footer className="App-footer"></footer>
             </div>
         )
     }
