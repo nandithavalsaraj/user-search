@@ -61,7 +61,7 @@ class App extends React.Component {
         this.setState({ showResults: true })
         event.preventDefault()
         this.setState({ apiResponse: this.defaultState.apiResponse }) // reset state
-        if (!this.state.validationError) {
+        if (this.state.validationError.length === 0) {
             if (this.textInput.value === '') {
                 console.log('invalid')
                 this.setState({ validationError: 'Invalid input' })

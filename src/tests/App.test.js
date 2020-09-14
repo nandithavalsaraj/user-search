@@ -45,11 +45,16 @@ test('Render user repo list', async () => {
     )
     await act(async () => {
         render(<App />, container)
-        fireEvent.change(document.querySelector('input.Search-bar'), {
-            target: { value: 'Enter GitHub username' },
+        new Promise((resolve, reject) => {
+            fireEvent.change(document.querySelector('input.Search-bar'), {
+                target: { value: 'nahzor' },
+            })
+            resolve()
+        }).then(() => {
+            fireEvent.click(document.querySelector('button.Submit'))
         })
-        fireEvent.click(document.querySelector('button.Submit'))
     })
+
     expect(document.querySelector('div.Display-card')).not.toBeNull()
     expect(document.querySelector('a.Card-title').textContent).toBe(
         'arduino-snippets'
@@ -57,7 +62,6 @@ test('Render user repo list', async () => {
     expect(document.querySelector('p.Card-description').textContent).toBe(
         'Arduino code snippets to try out different sensors.'
     )
-
     expect(document.querySelector('p.Card-update-date').textContent).toContain(
         '9/4/2020'
     )
